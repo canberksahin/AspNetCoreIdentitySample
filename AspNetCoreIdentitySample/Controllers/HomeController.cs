@@ -6,21 +6,29 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using AspNetCoreIdentitySample.Models;
+using AspNetCoreIdentitySample.Data;
 
 namespace AspNetCoreIdentitySample.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext db;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, AspNetCoreIdentitySample.Data.ApplicationDbContext db)
         {
             _logger = logger;
+            this.db = db;
         }
 
         public IActionResult Index()
         {
-            return View();
+            return View(db.Sehirler.ToList());
+        }
+
+        public IActionResult Users()
+        {
+            return View(db.Users.ToList());
         }
 
         public IActionResult Privacy()
